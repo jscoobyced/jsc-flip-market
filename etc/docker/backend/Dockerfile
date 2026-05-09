@@ -15,11 +15,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --production=true
 
 FROM node:25-alpine AS runtime
-ARG UID=1000
-ARG GID=1000
 
-RUN addgroup -S -g ${GID} appgroup \
-    && adduser -S -D -u ${UID} -G appgroup appuser
 
 WORKDIR /app
 
@@ -28,9 +24,9 @@ COPY --from=build /app/dist ./dist
 COPY package.json ./
 
 RUN mkdir -p /app/storage/uploads \
-    && chown -R appuser:appgroup /app
+    && chown -R node:node /app
 
-USER appuser
+USER node
 
 EXPOSE 4000
 
