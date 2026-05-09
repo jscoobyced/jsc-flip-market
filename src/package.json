@@ -1,0 +1,18 @@
+{
+  "name": "jsc-flip-market",
+  "description": "A web-application to manage property owners and flippers.",
+  "private": true,
+  "scripts": {
+    "install:all": "yarn --cwd backend install && yarn --cwd frontend install",
+    "dev:start": "docker compose --env-file ../etc/docker/.env.local -f ../etc/docker/docker-compose.yml up",
+    "dev:stop": "docker compose --env-file ../etc/docker/.env.local -f ../etc/docker/docker-compose.yml down",
+    "dev:backend": "yarn --cwd backend dev",
+    "dev:frontend": "yarn --cwd frontend dev",
+    "lint": "yarn --cwd backend lint && yarn --cwd frontend lint",
+    "typecheck": "yarn --cwd backend typecheck && yarn --cwd frontend typecheck",
+    "test": "yarn --cwd backend test && yarn --cwd frontend test",
+    "build": "yarn --cwd backend build && yarn --cwd frontend build",
+    "db:migrate": "yarn --cwd backend db:migrate",
+    "db:seed": "yarn --cwd backend db:seed"
+  }
+}

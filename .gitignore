@@ -1,0 +1,9 @@
+config.json
+.env
+.env.*
+!.env.example
+**/node_modules
+**/dist
+**/coverage
+backend/storage/uploads
+etc/docker/db/pgdata
