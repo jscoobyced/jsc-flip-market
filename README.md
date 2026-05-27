@@ -29,7 +29,7 @@ Full-stack marketplace for property owners and real-estate flippers, with a Reac
    yarn dev
    ```
 
-The frontend runs on `http://localhost:5173` and proxies `/api` and `/uploads` to the backend on `http://localhost:4000`.
+The frontend runs on `http://localhost:5173` and proxies `/api` and `/api/properties/images` to the backend on `http://localhost:4000`.
 
 ## Root scripts
 
@@ -43,5 +43,5 @@ The frontend runs on `http://localhost:5173` and proxies `/api` and `/uploads` t
 
 ## Notes
 
-- The frontend can fall back to local mock data if the API is unreachable, but `frontend/.env.example` defaults to live API mode.
-- Uploaded property images are served from the backend under `/uploads`.
+- The frontend runs in live API mode by default; mock data support has been removed.
+- Uploaded property images are served from the backend under `/api/properties/images/:filename`.

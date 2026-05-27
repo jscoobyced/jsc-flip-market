@@ -36,14 +36,6 @@ async function request<T>(path: string, init: RequestInit = {}) {
   }
 }
 
-export function shouldUseMockFallback(error?: unknown) {
-  if (window.__APP_CONFIG__?.useMockData) {
-    return true
-  }
-
-  return error instanceof ApiError && error.status === 0
-}
-
 export const apiClient = {
   get: <T>(path: string) => request<T>(path),
   post: <T>(path: string, body?: object | FormData) =>

@@ -52,7 +52,7 @@ export function PropertyEditPage() {
           images: data.images,
         }}
         onSubmit={async (values) => {
-          const property = await propertyService.updateProperty(data.id, user.id, values)
+          const property = await propertyService.updateProperty(data.id, values)
           void navigate(`/properties/${property.id}`, { state: { message: t('property.updated') } })
         }}
         submitLabel="Save listing"

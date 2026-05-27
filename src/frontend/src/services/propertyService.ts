@@ -1,85 +1,58 @@
-import { apiClient, shouldUseMockFallback } from '@/services/apiClient'
+import { apiClient } from '@/services/apiClient'
 import {
   buildApiSearchParams,
-  type BackendProperty,
   normalizePaginatedProperties,
   propertyFormToFormData,
   unwrapPropertyResponse,
+  type BackendProperty,
+  type PaginatedResult,
 } from '@/services/apiAdapters'
-import { mockBackend } from '@/services/mockBackend'
-import type { PaginatedResult } from '@/types/api'
-import type { Property, PropertyFormValues, SearchFilters } from '@/types/models'
-
-async function withFallback<T>(
-  primary: () => Promise<T>,
-  fallback: () => Promise<T>,
-): Promise<T> {
-  try {
-    return await primary()
-  } catch (error) {
-    if (shouldUseMockFallback(error)) {
-      return fallback()
-    }
-    throw error
-  }
-}
+import type { PropertyFormValues, SearchFilters } from '@/types/models'
 
 export const propertyService = {
   listProperties: (filters: SearchFilters = {}) => {
     const query = buildApiSearchParams(filters)
-    return withFallback<PaginatedResult<Property>>(
-      () =>
-        apiClient
-          .get<PaginatedResult<BackendProperty>>(`/properties${query ? `?${query}` : ''}`)
-          .then(normalizePaginatedProperties),
-      () => mockBackend.listProperties(filters),
-    )
+    return apiClient
+      .get<PaginatedResult<BackendProperty>>(`/properties${query ? `?${query}` : ''}`)
+      .then(normalizePaginatedProperties)
   },
   searchProperties: (filters: SearchFilters = {}) => {
     const query = buildApiSearchParams(filters)
-    return withFallback<PaginatedResult<Property>>(
-      () =>
-        apiClient
-          .get<PaginatedResult<BackendProperty>>(`/properties/search${query ? `?${query}` : ''}`)
-          .then(normalizePaginatedProperties),
-      () => mockBackend.searchProperties(filters),
-    )
+    return apiClient
+      .get<PaginatedResult<BackendProperty>>(`/properties/search${query ? `?${query}` : ''}`)
+      .then(normalizePaginatedProperties)
   },
   getFeaturedProperties: () =>
-    withFallback<Property[]>(
-      () =>
-        apiClient
-          .get<PaginatedResult<BackendProperty>>('/properties?status=active&limit=3')
-          .then((response) => normalizePaginatedProperties(response).items),
-      () => mockBackend.featuredProperties(),
-    ),
+    apiClient
+      .get<PaginatedResult<BackendProperty>>('/properties?status=active&limit=3')
+      .then((response) => normalizePaginatedProperties(response).items),
   getProperty: (id: string) =>
-    withFallback<Property>(
-      () => apiClient.get<{ property: BackendProperty }>(`/properties/${id}`).then(unwrapPropertyResponse),
-      () => mockBackend.getProperty(id),
-    ),
+    apiClient.get<{ property: BackendProperty }>(`/properties/${id}`).then(unwrapPropertyResponse),
   getOwnerListings: (ownerId: string, page = 1, pageSize = 6) =>
-    withFallback<PaginatedResult<Property>>(
-      () =>
-        apiClient
-          .get<PaginatedResult<BackendProperty>>(`/properties/${ownerId}/owner-listings?page=${page}&limit=${pageSize}`)
-          .then(normalizePaginatedProperties),
-      () => mockBackend.ownerListings(ownerId, page, pageSize),
-    ),
-  createProperty: (ownerId: string, payload: PropertyFormValues) =>
-    withFallback<Property>(
-      () => apiClient.post<{ property: BackendProperty }>('/properties', propertyFormToFormData(null, payload)).then(unwrapPropertyResponse),
-      () => mockBackend.createProperty(ownerId, payload),
-    ),
-  updateProperty: (propertyId: string, ownerId: string, payload: PropertyFormValues) =>
-    withFallback<Property>(
-      () =>
-        apiClient
-          .put<{ property: BackendProperty }>(`/properties/${propertyId}`, propertyFormToFormData(propertyId, payload))
-          .then(unwrapPropertyResponse),
-      () => mockBackend.updateProperty(propertyId, ownerId, payload),
-    ),
-  propertyTypes: mockBackend.propertyTypes,
-  conditions: mockBackend.conditions,
-  statuses: mockBackend.statuses,
+    apiClient
+      .get<PaginatedResult<BackendProperty>>(`/properties/${ownerId}/owner-listings?page=${page}&limit=${pageSize}`)
+      .then(normalizePaginatedProperties),
+  createProperty: (payload: PropertyFormValues) =>
+    apiClient.post<{ property: BackendProperty }>('/properties', propertyFormToFormData(null, payload)).then(unwrapPropertyResponse),
+  updateProperty: (propertyId: string, payload: PropertyFormValues) =>
+    apiClient
+      .put<{ property: BackendProperty }>(`/properties/${propertyId}`, propertyFormToFormData(propertyId, payload))
+      .then(unwrapPropertyResponse),
+  propertyTypes: [
+    { value: 'single-family', label: 'Single-family' },
+    { value: 'multi-family', label: 'Multi-family' },
+    { value: 'commercial', label: 'Commercial' },
+    { value: 'land', label: 'Land' },
+  ],
+  conditions: [
+    { value: 'poor', label: 'Poor' },
+    { value: 'fair', label: 'Fair' },
+    { value: 'needs-work', label: 'Needs work' },
+    { value: 'good', label: 'Good bones' },
+  ],
+  statuses: [
+    { value: 'active', label: 'Active' },
+    { value: 'sold', label: 'Sold' },
+    { value: 'archived', label: 'Archived' },
+  ],
 }

@@ -1,4 +1,6 @@
 import type { AuthResponse, PaginatedResult } from '@/types/api'
+
+export type { PaginatedResult }
 import type {
   EnquiryPayload,
   FlipperProfile,
@@ -122,7 +124,7 @@ function getApiOrigin() {
 
 function buildUploadUrl(filePath: string) {
   const normalizedPath = filePath.replace(/^\/+/, '')
-  return `${getApiOrigin()}/uploads/${normalizedPath}`
+  return `${getApiOrigin()}/api/properties/images/${normalizedPath}`
 }
 
 function normalizeUser(base: BackendUser): User {

@@ -28,3 +28,5 @@ export const getDatabase = (): DatabaseClient => {
 
 export const query = <T extends QueryResultRow = QueryResultRow>(text: string, params: unknown[] = []) =>
   getDatabase().query<T>(text, params);
+
+export type { QueryResultRow };

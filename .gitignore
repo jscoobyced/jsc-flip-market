@@ -5,5 +5,4 @@ config.json
 **/node_modules
 **/dist
 **/coverage
-backend/storage/uploads
 etc/docker/db/pgdata

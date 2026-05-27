@@ -42,7 +42,7 @@ services:
         condition: service_healthy
     ports:
       - "${BACKEND_PORT:-4000}:4000"
-    command: sh -c "yarn install --frozen-lockfile && yarn dev"
+    command: sh -c "yarn install --frozen-lockfile && yarn tsx src/server.ts"
 
   frontend:
     image: node:25-alpine
@@ -53,6 +53,7 @@ services:
       - ../../src/frontend:/app
     environment:
       VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:4000/api}
+      VITE_DEV_PROXY_TARGET: ${VITE_DEV_PROXY_TARGET:-http://backend:4000}
       VITE_USE_MOCKS: ${VITE_USE_MOCKS:-false}
     depends_on:
       - backend

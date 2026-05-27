@@ -25,7 +25,7 @@ export function PropertyCreatePage() {
       </div>
       <PropertyForm
         onSubmit={async (values) => {
-          const property = await propertyService.createProperty(user.id, values)
+          const property = await propertyService.createProperty(values)
           void navigate(`/properties/${property.id}`, { state: { message: t('property.created') } })
         }}
         submitLabel="Publish listing"

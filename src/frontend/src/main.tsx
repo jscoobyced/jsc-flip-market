@@ -14,7 +14,7 @@ declare global {
 
 window.__APP_CONFIG__ = {
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '/api',
-  useMockData: import.meta.env.VITE_USE_MOCKS === 'true',
+  useMockData: false,
 }
 
 createRoot(document.getElementById('root')!).render(
