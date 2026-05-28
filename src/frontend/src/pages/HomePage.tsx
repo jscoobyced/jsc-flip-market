@@ -57,10 +57,6 @@ export function HomePage() {
             </div>
           </div>
           <div className="space-y-5">
-            <div className="rounded-[1.75rem] border border-cyan-400/20 bg-gradient-to-br from-cyan-400/15 via-slate-900 to-slate-950 p-6">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-300">Deal flow</p>
-              <p className="mt-3 text-lg text-white">Search by city, condition, property type, and price to surface the right opportunity fast.</p>
-            </div>
             <PropertyFilters compact initialValues={{ page: 1 }} onSearch={handleSearch} />
           </div>
         </div>

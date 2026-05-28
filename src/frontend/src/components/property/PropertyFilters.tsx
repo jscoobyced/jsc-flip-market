@@ -21,31 +21,27 @@ export function PropertyFilters({ initialValues, compact = false, onSearch }: Pr
     setForm((current) => ({ ...current, [key]: value }))
   }
 
-  const gridClass = compact ? 'grid gap-4 lg:grid-cols-6' : 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
+  const gridClass = compact
+    ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-x-6 gap-y-8'
+    : 'grid grid-cols-1 md:grid-cols-2 gap-4'
 
   return (
     <form
-      className={`glass-panel rounded-3xl p-5 sm:p-6 ${compact ? '' : ''}`.trim()}
+      className={`glass-panel rounded-3xl p-4 sm:p-5 lg:p-6 ${compact ? '' : ''}`.trim()}
       onSubmit={(event) => {
         event.preventDefault()
         onSearch(form)
       }}
     >
       <div className={gridClass}>
-        <FormField label="Keyword">
-          <input
-            className="form-control"
-            onChange={(event) => update('query', event.target.value)}
-            placeholder="City, asset, or opportunity"
-            value={form.query ?? ''}
-          />
-        </FormField>
+        {/* Row 1: City, State */}
         <FormField label="City">
           <input className="form-control" onChange={(event) => update('city', event.target.value)} value={form.city ?? ''} />
         </FormField>
         <FormField label="State">
           <input className="form-control" onChange={(event) => update('state', event.target.value)} value={form.state ?? ''} />
         </FormField>
+        {/* Row 2: Property Type, Condition */}
         <FormField label="Property type">
           <select className="form-control" onChange={(event) => update('propertyType', event.target.value as SearchFilters['propertyType'])} value={form.propertyType ?? ''}>
             <option value="">Any type</option>
@@ -66,6 +62,7 @@ export function PropertyFilters({ initialValues, compact = false, onSearch }: Pr
             ))}
           </select>
         </FormField>
+        {/* Row 3: Min Price, Max Price */}
         <FormField label="Min price">
           <input
             className="form-control"
@@ -82,6 +79,15 @@ export function PropertyFilters({ initialValues, compact = false, onSearch }: Pr
             onChange={(event) => update('maxPrice', event.target.value ? Number(event.target.value) : undefined)}
             type="number"
             value={form.maxPrice ?? ''}
+          />
+        </FormField>
+        {/* Row 4: Keyword, Search button */}
+        <FormField label="Keyword" className="sm:col-span-2 lg:col-span-2">
+          <input
+            className="form-control"
+            onChange={(event) => update('query', event.target.value)}
+            placeholder="City, asset, or opportunity"
+            value={form.query ?? ''}
           />
         </FormField>
         <div className="flex items-end">

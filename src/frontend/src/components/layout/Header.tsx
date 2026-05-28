@@ -24,8 +24,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
-      <div className="page-shell flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex items-center justify-between gap-5">
+      <div className="page-shell flex flex-row justify-between gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex items-center gap-5">
           <Link className="text-lg font-semibold tracking-wide text-white" to="/">
             {t('nav.brand')}
           </Link>
@@ -50,7 +50,7 @@ export function Header() {
             ) : null}
           </nav>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-3">
           <LanguageSelector />
           {isAuthenticated && user ? (
             <>

@@ -43,5 +43,4 @@ The frontend runs on `http://localhost:5173` and proxies `/api` and `/api/proper
 
 ## Notes
 
-- The frontend runs in live API mode by default; mock data support has been removed.
 - Uploaded property images are served from the backend under `/api/properties/images/:filename`.
