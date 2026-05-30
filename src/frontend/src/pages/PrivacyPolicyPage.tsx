@@ -7,18 +7,22 @@ export function PrivacyPolicyPage() {
 
   const sections = [
     {
+      id: "information-we-collect",
       title: t("legal.informationWeCollect"),
       body: t("legal.informationWeCollectBody"),
     },
     {
+      id: "how-information-is-used",
       title: t("legal.howInformationIsUsed"),
       body: t("legal.howInformationIsUsedBody"),
     },
     {
+      id: "data-retention",
       title: t("legal.dataRetention"),
       body: t("legal.dataRetentionBody"),
     },
     {
+      id: "your-choices",
       title: t("legal.yourChoices"),
       body: t("legal.yourChoicesBody"),
     },
@@ -36,7 +40,7 @@ export function PrivacyPolicyPage() {
       <div className="mt-8 space-y-6">
         {sections.map((section) => (
           <section
-            key={section.title}
+            key={section.id}
             className="rounded-3xl border border-white/10 bg-white/5 p-5"
           >
             <h2 className="text-xl font-semibold text-white">

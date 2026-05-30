@@ -17,9 +17,27 @@ export function HomePage() {
   usePageTitle(t("home.pageTitle"));
 
   const stats = [
-    { label: t("home.listedHomes"), value: "128+" },
-    { label: t("home.activeBuyers"), value: "54" },
-    { label: t("home.closingRate"), value: "92%" },
+    { id: "listed-homes", label: t("home.listedHomes"), value: "128+" },
+    { id: "active-buyers", label: t("home.activeBuyers"), value: "54" },
+    { id: "closing-rate", label: t("home.closingRate"), value: "92%" },
+  ];
+
+  const workflowCards = [
+    {
+      id: "owner",
+      title: t("home.workflowOwnerTitle"),
+      body: t("home.workflowOwnerBody"),
+    },
+    {
+      id: "flipper",
+      title: t("home.workflowFlipperTitle"),
+      body: t("home.workflowFlipperBody"),
+    },
+    {
+      id: "enquiry",
+      title: t("home.workflowEnquiryTitle"),
+      body: t("home.workflowEnquiryBody"),
+    },
   ];
 
   const { data, loading } = useAsyncData(
@@ -59,7 +77,7 @@ export function HomePage() {
             <div className="grid gap-4 sm:grid-cols-3">
               {stats.map((item) => (
                 <div
-                  key={item.label}
+                  key={item.id}
                   className="rounded-3xl border border-white/10 bg-white/5 p-4"
                 >
                   <p className="text-2xl font-semibold text-white">
@@ -102,21 +120,8 @@ export function HomePage() {
         title={t("home.statsTitle")}
       >
         <div className="grid gap-6 lg:grid-cols-3">
-          {[
-            {
-              title: t("home.workflowOwnerTitle"),
-              body: t("home.workflowOwnerBody"),
-            },
-            {
-              title: t("home.workflowFlipperTitle"),
-              body: t("home.workflowFlipperBody"),
-            },
-            {
-              title: t("home.workflowEnquiryTitle"),
-              body: t("home.workflowEnquiryBody"),
-            },
-          ].map((item) => (
-            <article key={item.title} className="glass-panel rounded-3xl p-6">
+          {workflowCards.map((item) => (
+            <article key={item.id} className="glass-panel rounded-3xl p-6">
               <h3 className="text-xl font-semibold text-white">{item.title}</h3>
               <p className="mt-3 text-sm text-slate-300">{item.body}</p>
             </article>

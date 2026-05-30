@@ -7,18 +7,22 @@ export function TermsOfUsePage() {
 
   const sections = [
     {
+      id: "marketplace-access",
       title: t("legal.marketplaceAccess"),
       body: t("legal.marketplaceAccessBody"),
     },
     {
+      id: "listing-responsibilities",
       title: t("legal.listingResponsibilities"),
       body: t("legal.listingResponsibilitiesBody"),
     },
     {
+      id: "enquiry-conduct",
       title: t("legal.enquiryConduct"),
       body: t("legal.enquiryConductBody"),
     },
     {
+      id: "future-updates",
       title: t("legal.futureUpdates"),
       body: t("legal.futureUpdatesBody"),
     },
@@ -36,7 +40,7 @@ export function TermsOfUsePage() {
       <div className="mt-8 space-y-6">
         {sections.map((section) => (
           <section
-            key={section.title}
+            key={section.id}
             className="rounded-3xl border border-white/10 bg-white/5 p-5"
           >
             <h2 className="text-xl font-semibold text-white">
