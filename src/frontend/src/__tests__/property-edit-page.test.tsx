@@ -120,7 +120,9 @@ test("clicking next on the edit page advances to review without saving the prope
   renderEditPage();
 
   expect(
-    screen.queryByRole("button", { name: "Save listing" }),
+    screen.queryByRole("button", {
+      name: /Save listing|property-edit\.updateListing/i,
+    }),
   ).not.toBeInTheDocument();
 
   await user.click(screen.getByRole("button", { name: /Next|common\.next/i }));
@@ -128,6 +130,8 @@ test("clicking next on the edit page advances to review without saving the prope
   expect(updateProperty).not.toHaveBeenCalled();
   expect(screen.getByText("Review")).toBeInTheDocument();
   expect(
-    screen.getByRole("button", { name: "Save listing" }),
+    screen.getByRole("button", {
+      name: /Save listing|property-edit\.updateListing/i,
+    }),
   ).toBeInTheDocument();
 });

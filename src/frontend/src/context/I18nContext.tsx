@@ -167,6 +167,17 @@ export function I18nProvider({ children }: PropsWithChildren) {
         }
         setTranslations(grouped);
         setReady(true);
+      })
+      .catch(() => {
+        if (!mounted) {
+          return;
+        }
+        const grouped: Record<string, Translation[]> = {};
+        for (const pageType of initPageTypes) {
+          grouped[pageType] = [];
+        }
+        setTranslations(grouped);
+        setReady(true);
       });
 
     return () => {
