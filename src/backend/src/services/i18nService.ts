@@ -51,6 +51,30 @@ function getFallbackPageTranslations(pageType: PageType): Translation[] {
   }));
 }
 
+function mergeWithFallback(
+  pageType: PageType,
+  lang: string,
+  dbTranslations: Translation[],
+): Translation[] {
+  const byKey = new Map(
+    dbTranslations.map((translation) => [translation.key, translation]),
+  );
+  const fallback = englishFallbackTranslations[pageType] ?? {};
+
+  for (const [key, value] of Object.entries(fallback)) {
+    if (!byKey.has(key)) {
+      byKey.set(key, {
+        pageType,
+        lang,
+        key,
+        value,
+      });
+    }
+  }
+
+  return Array.from(byKey.values()).sort((a, b) => a.key.localeCompare(b.key));
+}
+
 export const i18nService = {
   async getTranslations(
     pageType: PageType,
@@ -72,9 +96,7 @@ export const i18nService = {
         [pageType, lang],
       );
       const rows = result.rows ?? [];
-      return rows.length > 0
-        ? mapRows(rows)
-        : getFallbackPageTranslations(pageType);
+      return mergeWithFallback(pageType, lang, mapRows(rows));
     } catch {
       return getFallbackPageTranslations(pageType);
     }
@@ -143,9 +165,7 @@ export const i18nService = {
 
       return pageTypes.flatMap((pageType) => {
         const translations = translationsByPageType.get(pageType);
-        return translations && translations.length > 0
-          ? translations
-          : getFallbackPageTranslations(pageType);
+        return mergeWithFallback(pageType, lang, translations ?? []);
       });
     } catch {
       return pageTypes.flatMap((pageType) =>
