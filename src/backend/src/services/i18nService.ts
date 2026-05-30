@@ -56,9 +56,14 @@ function mergeWithFallback(
   lang: string,
   dbTranslations: Translation[],
 ): Translation[] {
-  const byKey = new Map(
-    dbTranslations.map((translation) => [translation.key, translation]),
-  );
+  const byKey = new Map<string, Translation>();
+  for (const translation of dbTranslations) {
+    // Ignore blank values so file-backed fallbacks can fill these keys.
+    if (translation.value.trim().length === 0) {
+      continue;
+    }
+    byKey.set(translation.key, translation);
+  }
   const fallback = englishFallbackTranslations[pageType] ?? {};
 
   for (const [key, value] of Object.entries(fallback)) {
@@ -118,7 +123,10 @@ export const i18nService = {
       );
       const rows = result.rows ?? [];
       if (rows.length > 0) {
-        return rows[0].value;
+        const value = rows[0].value;
+        if (value.trim().length > 0) {
+          return value;
+        }
       }
     } catch {
       // Fall through to the file-backed English fallback.
