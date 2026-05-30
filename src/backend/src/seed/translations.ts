@@ -290,6 +290,26 @@ export const translationGroups: Record<PageType, TranslationGroup> = {
       en: "City, asset, or opportunity",
       es: "Ciudad, activo u oportunidad",
     },
+    propertyTypeSingleFamily: {
+      en: "Single-family",
+      es: "Unifamiliar",
+    },
+    propertyTypeMultiFamily: {
+      en: "Multi-family",
+      es: "Multifamiliar",
+    },
+    propertyTypeCommercial: {
+      en: "Commercial",
+      es: "Comercial",
+    },
+    propertyTypeLand: {
+      en: "Land",
+      es: "Terreno",
+    },
+    conditionPoor: { en: "Poor", es: "Malo" },
+    conditionFair: { en: "Fair", es: "Regular" },
+    conditionNeedsWork: { en: "Needs work", es: "Necesita trabajo" },
+    conditionGoodBones: { en: "Good bones", es: "Buena base" },
     page: { en: "Page", es: "Página" },
     of: { en: "of", es: "de" },
     anyPropertyType: { en: "Any type", es: "Cualquier tipo" },

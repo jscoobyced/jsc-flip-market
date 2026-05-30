@@ -25,6 +25,14 @@ beforeEach(() => {
         "search.minPrice": "Min price",
         "search.maxPrice": "Max price",
         "search.anyConditionPlaceholder": "City, asset, or opportunity",
+        "search.propertyTypeSingleFamily": "Single-family",
+        "search.propertyTypeMultiFamily": "Multi-family",
+        "search.propertyTypeCommercial": "Commercial",
+        "search.propertyTypeLand": "Land",
+        "search.conditionPoor": "Poor",
+        "search.conditionFair": "Fair",
+        "search.conditionNeedsWork": "Needs work",
+        "search.conditionGoodBones": "Good bones",
         "common.search": "Search",
       };
       return labels[key] ?? key;
