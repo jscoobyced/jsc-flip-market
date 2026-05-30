@@ -1,39 +1,53 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { InlineNotice } from '@/components/feedback/InlineNotice'
-import { LoadingCard } from '@/components/feedback/LoadingCard'
-import { PropertyForm } from '@/components/property/PropertyForm'
-import { useAsyncData } from '@/hooks/useAsyncData'
-import { useAuth } from '@/hooks/useAuth'
-import { useI18n } from '@/hooks/useI18n'
-import { usePageTitle } from '@/hooks/usePageTitle'
-import { propertyService } from '@/services/propertyService'
+import { useNavigate, useParams } from "react-router-dom";
+import { InlineNotice } from "@/components/feedback/InlineNotice";
+import { LoadingCard } from "@/components/feedback/LoadingCard";
+import { PropertyForm } from "@/components/property/PropertyForm";
+import { useAsyncData } from "@/hooks/useAsyncData";
+import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/hooks/useI18n";
+import { usePageTitle } from "@/hooks/usePageTitle";
+import { propertyService } from "@/services/propertyService";
 
 export function PropertyEditPage() {
-  const { id = '' } = useParams()
-  const { user } = useAuth()
-  const { t } = useI18n()
-  const navigate = useNavigate()
-  usePageTitle('Edit property')
-  const { data, loading, error } = useAsyncData(() => propertyService.getProperty(id), [id])
+  const { id = "" } = useParams();
+  const { user } = useAuth();
+  const { t } = useI18n();
+  const navigate = useNavigate();
+  usePageTitle(t("property-edit.title"));
+  const { data, loading, error } = useAsyncData(
+    () => propertyService.getProperty(id),
+    [id],
+  );
 
   if (loading) {
-    return <LoadingCard className="h-[420px]" />
+    return <LoadingCard className="h-[420px]" />;
   }
 
   if (!data || error) {
-    return <InlineNotice message={error ?? 'Unable to load property'} tone="error" />
+    return (
+      <InlineNotice
+        message={error ?? t("property.unableToLoad")}
+        tone="error"
+      />
+    );
   }
 
-  if (!user || user.role !== 'OWNER' || data.ownerId !== user.id) {
-    return <InlineNotice message={t('property.ownerOnly')} tone="error" />
+  if (!user || user.role !== "OWNER" || data.ownerId !== user.id) {
+    return <InlineNotice message={t("common.ownerOnly")} tone="error" />;
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-300">Edit listing</p>
-        <h1 className="mt-2 text-4xl font-semibold text-white">Update property details</h1>
-        <p className="mt-3 max-w-2xl text-slate-300">Adjust pricing, media, and status as the listing evolves.</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-300">
+          {t("property.editListing")}
+        </p>
+        <h1 className="mt-2 text-4xl font-semibold text-white">
+          {t("property-edit.title")}
+        </h1>
+        <p className="mt-3 max-w-2xl text-slate-300">
+          {t("property-edit.description")}
+        </p>
       </div>
       <PropertyForm
         initialValues={{
@@ -52,11 +66,16 @@ export function PropertyEditPage() {
           images: data.images,
         }}
         onSubmit={async (values) => {
-          const property = await propertyService.updateProperty(data.id, values)
-          void navigate(`/properties/${property.id}`, { state: { message: t('property.updated') } })
+          const property = await propertyService.updateProperty(
+            data.id,
+            values,
+          );
+          void navigate(`/properties/${property.id}`, {
+            state: { message: t("property.updated") },
+          });
         }}
-        submitLabel="Save listing"
+        submitLabel={t("property-edit.updateListing")}
       />
     </div>
-  )
+  );
 }

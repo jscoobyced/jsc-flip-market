@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { authRouter } from './routes/auth';
 import { enquiryRouter } from './routes/enquiries';
+import i18nRouter from './routes/i18n';
 import { imageRouter } from './routes/images';
 import { propertyRouter } from './routes/properties';
 import { userRouter } from './routes/users';
@@ -34,6 +35,7 @@ export const createApp = () => {
   app.use('/api/properties', propertyRouter);
   app.use('/api/properties/images', imageRouter);
   app.use('/api/enquiries', enquiryRouter);
+  app.use('/api/i18n', i18nRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
