@@ -26,66 +26,71 @@ import { SearchResultsPage } from "@/pages/SearchResultsPage";
 import { TermsOfUsePage } from "@/pages/TermsOfUsePage";
 import type { PageType } from "@/types/i18n";
 
+const HOME_PAGE_TYPES: PageType[] = ["home", "search"];
+const AUTH_PAGE_TYPES: PageType[] = ["auth"];
+const LEGAL_PAGE_TYPES: PageType[] = ["legal"];
+const DASHBOARD_PAGE_TYPES: PageType[] = ["dashboard"];
+const SEARCH_PAGE_TYPES: PageType[] = ["search"];
+const PROPERTY_CREATE_PAGE_TYPES: PageType[] = ["property", "property-create"];
+const PROPERTY_EDIT_PAGE_TYPES: PageType[] = ["property", "property-edit"];
+const PROPERTY_PAGE_TYPES: PageType[] = ["property"];
+const OWNER_LISTINGS_PAGE_TYPES: PageType[] = ["owner-listings"];
+const PROFILE_PAGE_TYPES: PageType[] = ["profile"];
+const NOT_FOUND_PAGE_TYPES: PageType[] = ["not-found"];
+
 function pageTypesForPath(pathname: string): PageType[] {
   const pageTypes = new Set<PageType>(["common"]);
+  const addPageTypes = (types: PageType[]) => {
+    for (const pageType of types) {
+      pageTypes.add(pageType);
+    }
+    return Array.from(pageTypes);
+  };
 
   if (pathname === "/" || pathname === "/home") {
-    pageTypes.add("home");
-    return Array.from(pageTypes);
+    return addPageTypes(HOME_PAGE_TYPES);
   }
 
   if (pathname === "/login" || pathname === "/register") {
-    pageTypes.add("auth");
-    return Array.from(pageTypes);
+    return addPageTypes(AUTH_PAGE_TYPES);
   }
 
   if (pathname === "/terms" || pathname === "/privacy") {
-    pageTypes.add("legal");
-    return Array.from(pageTypes);
+    return addPageTypes(LEGAL_PAGE_TYPES);
   }
 
   if (pathname === "/dashboard") {
-    pageTypes.add("dashboard");
-    return Array.from(pageTypes);
+    return addPageTypes(DASHBOARD_PAGE_TYPES);
   }
 
   if (pathname === "/properties/search") {
-    pageTypes.add("search");
-    return Array.from(pageTypes);
+    return addPageTypes(SEARCH_PAGE_TYPES);
   }
 
   if (matchPath("/properties/new", pathname)) {
-    pageTypes.add("property");
-    pageTypes.add("property-create");
-    return Array.from(pageTypes);
+    return addPageTypes(PROPERTY_CREATE_PAGE_TYPES);
   }
 
   if (matchPath("/properties/:id/edit", pathname)) {
-    pageTypes.add("property");
-    pageTypes.add("property-edit");
-    return Array.from(pageTypes);
+    return addPageTypes(PROPERTY_EDIT_PAGE_TYPES);
   }
 
   if (matchPath("/properties/:id", pathname)) {
-    pageTypes.add("property");
-    return Array.from(pageTypes);
+    return addPageTypes(PROPERTY_PAGE_TYPES);
   }
 
   if (matchPath("/owners/:id/listings", pathname)) {
-    pageTypes.add("owner-listings");
-    return Array.from(pageTypes);
+    return addPageTypes(OWNER_LISTINGS_PAGE_TYPES);
   }
 
   if (
     matchPath("/owners/:id", pathname) ||
     matchPath("/flippers/:id", pathname)
   ) {
-    pageTypes.add("profile");
-    return Array.from(pageTypes);
+    return addPageTypes(PROFILE_PAGE_TYPES);
   }
 
-  pageTypes.add("not-found");
-  return Array.from(pageTypes);
+  return addPageTypes(NOT_FOUND_PAGE_TYPES);
 }
 
 function RouteTranslationLoader() {

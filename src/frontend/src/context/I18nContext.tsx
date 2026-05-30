@@ -145,7 +145,7 @@ export function I18nProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     let mounted = true;
-    const initPageTypes: PageType[] = ["home", "common", "errors"];
+    const initPageTypes: PageType[] = ["home", "search", "common", "errors"];
     i18nService
       .getTranslationsBatch(initPageTypes, initialLoadLanguage)
       .then((batchResults) => {
