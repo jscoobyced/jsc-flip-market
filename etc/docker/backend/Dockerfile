@@ -23,8 +23,7 @@ COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package.json ./
 
-RUN mkdir -p /app/storage/uploads \
-    && chown -R node:node /app
+RUN chown -R node:node /app
 
 USER node
 
