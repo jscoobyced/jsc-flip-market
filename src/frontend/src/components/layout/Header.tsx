@@ -27,25 +27,25 @@ export function Header() {
       <div className="page-shell flex flex-row justify-between gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-5">
           <Link className="text-lg font-semibold tracking-wide text-white" to="/">
-            {t('nav.brand')}
+            {t('common.brand')}
           </Link>
           <nav className="hidden items-center gap-5 md:flex">
             <NavLink className={({ isActive }) => navClass(isActive)} to="/properties/search">
-              {t('nav.browse')}
+              {t('common.browse')}
             </NavLink>
             {user?.role === 'OWNER' ? (
               <NavLink className={({ isActive }) => navClass(isActive)} to="/dashboard">
-                {t('nav.dashboard')}
+                {t('common.dashboard')}
               </NavLink>
             ) : null}
             {user?.role === 'OWNER' ? (
               <NavLink className={({ isActive }) => navClass(isActive)} to={`/owners/${user.id}/listings`}>
-                {t('nav.ownerListings')}
+                {t('common.ownerListings')}
               </NavLink>
             ) : null}
             {user?.role === 'OWNER' ? (
               <NavLink className={({ isActive }) => navClass(isActive)} to="/properties/new">
-                {t('nav.listProperty')}
+                {t('common.listProperty')}
               </NavLink>
             ) : null}
           </nav>
@@ -65,15 +65,15 @@ export function Header() {
                   void navigate('/')
                 }}
               >
-                {t('nav.logout')}
+                {t('common.logout')}
               </Button>
             </>
           ) : (
             <>
               <LinkButton to="/login" variant="ghost">
-                {t('nav.login')}
+                {t('common.login')}
               </LinkButton>
-              <LinkButton to="/register">{t('nav.register')}</LinkButton>
+              <LinkButton to="/register">{t('common.register')}</LinkButton>
             </>
           )}
         </div>

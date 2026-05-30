@@ -1,6 +1,16 @@
-import { query } from './index';
+import { query } from "./index";
 
-const statements = [
+const dropStatements = [
+  `DROP TABLE IF EXISTS enquiries;`,
+  `DROP TABLE IF EXISTS property_images;`,
+  `DROP TABLE IF EXISTS page_translations;`,
+  `DROP TABLE IF EXISTS properties;`,
+  `DROP TABLE IF EXISTS owner_profiles;`,
+  `DROP TABLE IF EXISTS flipper_profiles;`,
+  `DROP TABLE IF EXISTS users;`,
+];
+
+const createStatements = [
   `
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
@@ -87,10 +97,32 @@ const statements = [
   `CREATE INDEX IF NOT EXISTS idx_properties_location ON properties(city, state);`,
   `CREATE INDEX IF NOT EXISTS idx_enquiries_property ON enquiries(property_id);`,
   `CREATE INDEX IF NOT EXISTS idx_enquiries_flipper ON enquiries(flipper_id);`,
+  `
+    CREATE TABLE IF NOT EXISTS page_translations (
+      id TEXT PRIMARY KEY,
+      page_type TEXT NOT NULL,
+      lang TEXT NOT NULL,
+      key TEXT NOT NULL,
+      value TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      UNIQUE(page_type, lang, key)
+    );
+  `,
 ];
 
 export const migrateDatabase = async (): Promise<void> => {
-  for (const statement of statements) {
+  for (const statement of createStatements) {
+    await query(statement);
+  }
+};
+
+export const resetDatabase = async (): Promise<void> => {
+  for (const statement of dropStatements) {
+    await query(statement);
+  }
+
+  for (const statement of createStatements) {
     await query(statement);
   }
 };
